@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    public class Book
+    public class Book: NameObject
     {
-        public Book(string name)
+        public Book(string name) : base(name)
         {
             grades = new List<double>();
-            this.name = name;
+            Name = name;
         }
         public void AddGrade(double grade)
         {
@@ -56,6 +56,5 @@ namespace GradeBook
         }
 
         List<double> grades;
-        public string name { get; }
     }
 }

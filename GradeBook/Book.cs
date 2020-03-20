@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace GradeBook
 {
-    public class Book: NameObject
+
+    public abstract class Book : NameObject, IBook
     {
         public Book(string name) : base(name)
+        {
+        }
+        public abstract void AddGrade(double grade);
+
+        public abstract Statistics GetStats();
+    } 
+    public class InMemoryBook: Book
+    {
+        public InMemoryBook(string name) : base(name)
         {
             grades = new List<double>();
             Name = name;
         }
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if(grade <= 100 && grade >= 0)
                 grades.Add(grade);
@@ -18,43 +29,21 @@ namespace GradeBook
                 throw new ArgumentException("Please enter a valid grade");
 
         }
-        public Statistics GetStats()
+        public override Statistics GetStats()
         {
             var result = new Statistics();
-            result.Average = 0.0;
-            result.High = double.MinValue;
-            result.Low = double.MaxValue;
+          
 
             foreach (var grade in grades)
             {
-                result.High = Math.Max(grade, result.High);
-                result.Low = Math.Min(grade, result.Low);
-                result.Average += grade;
+                result.Add(grade);
+               
             }
-             result.Average /= grades.Count;
-            switch (result.Average)
-            {
-                case var d when d >= 90.0:
-                    result.Letter = 'A';
-                    break;
-                case var d when d >= 80.0:
-                    result.Letter = 'B';
-                    break;
-                case var d when d >= 70.0:
-                    result.Letter = 'C';
-                    break;
-                case var d when d >= 60.0:
-                    result.Letter = 'D';
-                    break;
-                default:
-                    result.Letter = 'F';
-                    break;
-            }
-
 
             return result;
         }
 
         List<double> grades;
+
     }
 }

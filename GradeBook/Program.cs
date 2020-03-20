@@ -3,15 +3,12 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    class Program
+    partial class Program
     {
 
-        
         static void Main(string[] args)
         {
-
-
-            var book = new Book("My grade book");
+            var book = new DiscBook("My grade book");
             EnterGrade(book);
 
             var stats = book.GetStats();
@@ -20,12 +17,9 @@ namespace GradeBook
             Console.WriteLine($"The Average grade is {stats.Average}");
             Console.WriteLine($"The Letter grade is {stats.Letter}");
 
-
-
-
         }
 
-        private static void EnterGrade(Book book)
+        private static void EnterGrade(IBook book)
         {
             while (true)
             {
@@ -38,8 +32,7 @@ namespace GradeBook
                 }
                 try
                 {
-                    book.AddGrade(double.Parse(value));
-
+                    book.AddGrade(double.Parse(value))
                 }
                 catch (ArgumentException ex)
                 {
